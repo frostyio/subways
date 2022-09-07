@@ -1,0 +1,9 @@
+[package]
+name = "frosty/subways"
+version = "0.1.0"
+registry = "https://github.com/UpliftGames/wally-index"
+realm = "shared"
+
+[dependencies]
+camerashaker = "brittonfischer/camerashaker@0.1.0"
+spring = "brittonfischer/spring@0.1.0"
