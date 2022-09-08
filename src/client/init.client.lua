@@ -10,6 +10,8 @@ local audio = require(common:WaitForChild("audio"))
 local cameraShaker = require(imports:WaitForChild("camerashaker"))
 local CameraShakeInstance = cameraShaker.CameraShakeInstance
 
+require(common:WaitForChild("interactives"))
+
 do
 	-- custom camera
 	local springModule = require(imports:WaitForChild("spring"))

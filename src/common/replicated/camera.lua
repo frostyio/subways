@@ -65,6 +65,8 @@ local function captureFocus(_, state: Enum.UserInputState, _)
 		UserInputService.MouseIconEnabled = false
 		currentCamera._camera.CameraType = Enum.CameraType.Scriptable
 	end
+
+	return Enum.ContextActionResult.Pass
 end
 
 function module.new(subject: BasePart?): Camera
