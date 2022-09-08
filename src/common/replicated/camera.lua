@@ -43,12 +43,6 @@ local function input(_, state: Enum.UserInputState, object: InputObject)
 		local y = math.clamp((angle.Y - delta.Y), minBound, maxBound)
 
 		currentCamera._angle = Vector2.new(x, y)
-
-		if currentCamera._root then
-			local current = currentCamera._root.CFrame
-			local xr, _, zr = current:ToEulerAnglesYXZ()
-			currentCamera._root.CFrame = CFrame.new(current.Position) * CFrame.Angles(xr, math.rad(-x), zr)
-		end
 	end
 end
 
@@ -76,7 +70,7 @@ function module.new(subject: BasePart?): Camera
 	self._running = false
 	self._root = nil
 	self._humanoid = nil
-	self._offset = Vector3.new()
+	self._offset = CFrame.new()
 	self._angle = Vector2.new(0, 0)
 	self._angleBounds = { -74, 74 }
 	self._useUserInput = false
@@ -162,7 +156,8 @@ function module._update(self: Camera, _dt: number)
 	self._spring.Target = angle
 	local newAngle = self._spring.Position
 
-	local cf = CFrame.new(subjectCf.Position + offset)
+	local cf = CFrame.new(subjectCf.Position)
+		* offset
 		* CFrame.Angles(0, math.rad(newAngle.X), 0)
 		* CFrame.Angles(math.rad(newAngle.Y), 0, 0)
 
@@ -171,6 +166,12 @@ function module._update(self: Camera, _dt: number)
 	end
 
 	self._camera.CFrame = cf * CFrame.Angles(0, 0, self._tilt)
+
+	if self._root then
+		local current = self._root.CFrame
+		local xr, _, zr = current:ToEulerAnglesYXZ()
+		self._root.CFrame = CFrame.new(current.Position) * CFrame.Angles(xr, math.rad(newAngle.X), zr)
+	end
 end
 
 updateThread = coroutine.create(function()

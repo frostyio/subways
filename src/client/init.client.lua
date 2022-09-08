@@ -18,8 +18,10 @@ do
 	local cameraModule = require(common:WaitForChild("camera"))
 
 	local currentHumanoid: Humanoid
+	local currentCharacter: Model
+
 	local camera = cameraModule.new()
-	camera:setOffset(Vector3.new(0, 2, 0))
+	camera:setOffset(CFrame.new(0, 2, -0.2))
 
 	local shakeOffset = CFrame.new()
 	local trainShake = CameraShakeInstance.new(0.1, 10, 2, 2)
@@ -40,6 +42,14 @@ do
 			return
 		end
 
+		-- make body visible
+		-- for _, part in currentCharacter:GetChildren() do
+		-- 	if part:IsA("BasePart") and part.Name ~= "Head" then
+		-- 		part.LocalTransparencyModifier = 0
+		-- 	end
+		-- end
+		--
+
 		if currentHumanoid.MoveDirection.Magnitude == 0 then
 			spring.Target = 0
 		else
@@ -56,6 +66,7 @@ do
 		camera:setCharacter(character)
 		camera:setSubject(character:WaitForChild("HumanoidRootPart"))
 		currentHumanoid = character:WaitForChild("Humanoid")
+		currentCharacter = character
 	end
 	client.CharacterAdded:Connect(addCharacter)
 	if client.Character then
@@ -63,19 +74,19 @@ do
 	end
 end
 
--- local Lighting = game.Lighting
--- do
--- 	local properties = {
--- 		Ambient = Color3.fromRGB(0, 0, 0),
--- 		ClockTime = 0,
--- 		FogColor = Color3.fromRGB(0, 0, 0),
--- 		FogEnd = 100,
--- 	}
+local Lighting = game.Lighting
+do
+	local properties = {
+		Ambient = Color3.fromRGB(0, 0, 0),
+		ClockTime = 0,
+		FogColor = Color3.fromRGB(0, 0, 0),
+		FogEnd = 100,
+	}
 
--- 	for prop, val in properties do
--- 		Lighting[prop] = val
--- 	end
--- end
+	for prop, val in properties do
+		Lighting[prop] = val
+	end
+end
 
 audio.playAudio("TrainAmbient")
 
